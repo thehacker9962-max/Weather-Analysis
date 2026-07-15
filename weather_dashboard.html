@@ -675,7 +675,7 @@ canvas.sm{height:240px;}
     async function loadData(){
       try{
         STATUS.textContent = 'Status: loading weather_data.json…';
-        const res = await fetch('./weather_data.json');
+        const res = await fetch('weather_data.json');
         if(!res.ok) throw new Error('Could not load weather_data.json');
         data = await res.json();
         STATUS.textContent = `Status: loaded ${data.length.toLocaleString()} rows.`;
