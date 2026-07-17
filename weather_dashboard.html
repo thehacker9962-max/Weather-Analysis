@@ -303,11 +303,15 @@ canvas.sm{height:240px;}
 
   </main>
 
+  <div style="max-width:1200px;margin:0 auto;padding:0 18px;display:flex;justify-content:flex-end;">
+    <button id="weatherPptBtn" type="button">Download PowerPoint Report</button>
+  </div>
   <footer>
     Built with HTML + CSS + Chart.js. Data expected from <code>weather_data.json</code>.
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
   <script>
     const STATUS = document.getElementById('status');
     const RANGE = document.getElementById('rangeLabel');
@@ -690,6 +694,24 @@ canvas.sm{height:240px;}
     document.getElementById('timeRange').addEventListener('change', applyFilter);
     document.getElementById('weatherKey').addEventListener('change', applyFilter);
 
+    async function downloadWeatherPpt(){
+      if(!window.PptxGenJS){alert('PowerPoint export library did not load. Check your internet connection and try again.');return}
+      if(!data.length){alert('Weather data is still loading. Please try again in a moment.');return}
+      const range=document.getElementById('timeRange').value;
+      const weatherKey=document.getElementById('weatherKey').value;
+      const rows=range==='all'?data:data.filter(r=>monthKey(r['Date/Time'])===range);
+      const pptx=new PptxGenJS();pptx.layout='LAYOUT_WIDE';pptx.author='Weather Dashboard';pptx.subject='Weather analytics report';
+      const title=(slide,text,sub)=>{slide.background={color:'0B1220'};slide.addText(text,{x:.55,y:.35,w:10,h:.35,fontSize:25,bold:true,color:'E5E7EB'});slide.addText(sub,{x:.57,y:.78,w:10,h:.22,fontSize:10,color:'9CA3AF'})};
+      const chart=(slide,id,x,y,w,h)=>{if(charts[id])slide.addImage({data:charts[id].toBase64Image(),x,y,w,h})};
+      const summary=pptx.addSlide();title(summary,'Weather Analytics Report',range==='all'?'All available dates':`Period: ${range}`);
+      const cards=[['Average temperature',document.getElementById('kpiTemp').textContent+' °C'],['Average humidity',document.getElementById('kpiHum').textContent+' %'],['Most common condition',document.getElementById('kpiCond').textContent],['Max wind speed',document.getElementById('windMax').textContent+' km/h']];
+      cards.forEach((card,i)=>{const x=.55+(i%2)*3.1,y=1.35+Math.floor(i/2)*1.05;summary.addShape(pptx.ShapeType.roundRect,{x,y,w:2.8,h:.8,rectRadius:.06,fill:{color:'111B30'},line:{color:'263756'}});summary.addText(card[0],{x:x+.16,y:y+.14,w:2.45,h:.16,fontSize:9,color:'9CA3AF'});summary.addText(card[1],{x:x+.16,y:y+.38,w:2.45,h:.25,fontSize:15,bold:true,color:'E5E7EB',fit:'shrink'})});
+      summary.addText(`Records analysed: ${rows.length.toLocaleString()}\nWeather column: ${weatherKey}`,{x:.6,y:3.8,w:5.6,h:.5,fontSize:12,color:'D7E2F3'});
+      const trend=pptx.addSlide();title(trend,'Temperature & Humidity Trends',`Showing up to ${Math.min(rows.length,200)} points`);chart(trend,'temp',.55,1.2,12.15,5.45);
+      const detail=pptx.addSlide();title(detail,'Conditions, Wind & Visibility','Distribution and relationship analysis');chart(detail,'cond',.55,1.22,5.8,2.45);chart(detail,'windMax',6.65,1.22,5.8,2.45);chart(detail,'windVis',3.55,4.0,5.8,2.35);
+      await pptx.writeFile({fileName:`weather_analytics_${range}.pptx`});
+    }
+    document.getElementById('weatherPptBtn').addEventListener('click',downloadWeatherPpt);
     loadData();
   </script>
 </body>
