@@ -65,7 +65,13 @@ npm run build
 
 The build produces the Vite client bundle and bundles `server.ts` into `dist/server.cjs`. In production, Express serves the generated `dist` directory. The health endpoint is available at `/api/health`.
 
-## 7. Deployment checklist
+## 7. Render deployment
+
+This project is configured for Render with `render.yaml`. Render runs the Express server as a web service, which supports both the static dashboard and the `/api/ai-analyze`, `/api/ai-chat`, and `/api/health` endpoints.
+
+The service uses the Render-provided `PORT` value and listens on `0.0.0.0`. The blueprint uses `/api/health` as its health check.
+
+## 8. Deployment checklist
 
 1. Install dependencies with `npm ci`.
 2. Configure `OPENROUTER_API_KEY` securely in the hosting provider.
@@ -74,6 +80,6 @@ The build produces the Vite client bundle and bundles `server.ts` into `dist/ser
 5. Start the service with `npm start`.
 6. Verify `/api/health`, CSV upload, report generation, and export flows.
 
-## 8. Internship learning outcomes
+## 9. Internship learning outcomes
 
 This project demonstrates component-based frontend development, typed data processing, API integration, basic predictive analytics, error handling, report generation, environment-based configuration, and production build practices.

@@ -70,6 +70,16 @@ The API key is read by the server and is not exposed to the browser. The dashboa
 
 See [docs/PIPELINE.md](docs/PIPELINE.md) for the detailed workflow, deployment notes, and internship deliverables.
 
+## Deploy on Render
+
+1. Push this repository to GitHub.
+2. In Render, choose **New > Blueprint** and select the repository.
+3. Render will read `render.yaml` and create the web service.
+4. Add `OPENROUTER_API_KEY` in the service environment settings.
+5. Deploy and open the generated Render URL.
+
+The service uses `npm ci && npm run build` to build the Vite client and server bundle, then starts with `npm start`. Verify the deployment at `/api/health`.
+
 ## Project structure
 
 ```text
