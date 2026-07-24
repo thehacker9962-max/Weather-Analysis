@@ -1,29 +1,12 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>InsightHub | Analytics Dashboards</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
-    <style>
-      :root{--ink:#10213f;--muted:#667085;--line:#e7ebf3;--blue:#3563e9;--blue-dark:#254dc4;--navy:#102a5b;--canvas:#f7f9fd}*{box-sizing:border-box}body{margin:0;color:var(--ink);font-family:"DM Sans",Arial,sans-serif;background:var(--canvas)}.top{height:4px;background:linear-gradient(90deg,#3563e9,#46b8ff,#25bf9a)}.wrap{max-width:1160px;margin:auto;padding:0 24px}.nav{height:74px;display:flex;align-items:center;justify-content:space-between}.brand{font:800 20px Manrope,sans-serif;letter-spacing:-.7px}.brand i{display:inline-grid;place-items:center;width:28px;height:28px;margin-right:8px;border-radius:8px;color:white;background:var(--blue);font-style:normal;font-size:15px}.tag{color:var(--muted);font-size:13px}.hero{padding:70px 0 52px;text-align:center;background:radial-gradient(650px 260px at 50% 10%,#dceaff,transparent 72%)}.eyebrow{display:inline-flex;gap:7px;align-items:center;border:1px solid #cbdafb;border-radius:999px;padding:6px 11px;color:#3157bd;background:#f7faff;font-size:12px;font-weight:700}.eyebrow:before{content:"";width:7px;height:7px;border-radius:50%;background:#25bf9a}.hero h1{max-width:720px;margin:18px auto 14px;font:800 clamp(34px,5vw,54px)/1.08 Manrope,sans-serif;letter-spacing:-2px}.hero p{max-width:580px;margin:auto;color:var(--muted);font-size:17px;line-height:1.65}.products{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin:-10px auto 64px}.product{position:relative;overflow:hidden;padding:29px;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:0 12px 32px #102a5b0c;transition:.2s}.product:hover{transform:translateY(-4px);box-shadow:0 18px 35px #102a5b17}.product:after{content:"";position:absolute;right:-45px;bottom:-65px;width:180px;height:180px;border-radius:50%;background:#edf2ff}.product.green:after{background:#e6f8f3}.icon{display:grid;place-items:center;width:46px;height:46px;border-radius:13px;background:#edf2ff;color:var(--blue);font-size:22px}.green .icon{color:#119675;background:#e6f8f3}.product h2{margin:22px 0 8px;font:700 21px Manrope,sans-serif;letter-spacing:-.5px}.product p{position:relative;z-index:1;min-height:48px;margin:0 0 23px;color:var(--muted);line-height:1.55}.action{position:relative;z-index:1;display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:white;background:var(--blue);border-radius:9px;padding:11px 15px;font-size:14px;font-weight:700}.green .action{background:#119675}.action:hover{filter:brightness(.95)}.meta{position:relative;z-index:1;margin-top:18px;color:#98a2b3;font-size:12px}footer{padding:24px;text-align:center;border-top:1px solid var(--line);color:#98a2b3;font-size:13px;background:white}@media(max-width:700px){.tag{display:none}.hero{padding-top:48px}.products{grid-template-columns:1fr;margin-bottom:42px}.hero h1{letter-spacing:-1.3px}}
-      .featured{max-width:660px;margin:-22px auto 42px}.projects-title{margin:0 0 16px;font:700 18px Manrope,sans-serif}.projects-subtitle{margin:-10px 0 18px;color:var(--muted);font-size:13px}.projects{margin:0 auto 64px}.projects .products{margin:0}.projects .product{max-width:560px}
-    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FinVision Analytics</title>
   </head>
   <body>
-    <div class="top"></div><div class="wrap"><nav class="nav"><div class="brand"><i>⌁</i>InsightHub</div><span class="tag">Data analysis & reporting workspace</span></nav></div>
-    <section class="hero"><div class="wrap"><span class="eyebrow">ANALYTICS WORKSPACE</span><h1>Make your data easier to understand.</h1><p>Explore weather trends or turn any CSV file into a clear, presentation-ready visual report.</p></div></section>
-    <main class="wrap"><section class="featured"><article class="product green"><div class="icon">↗</div><h2>CSV Report Studio</h2><p>Upload a CSV, build visuals, discover insights, and export a professional PowerPoint report.</p><a class="action" href="csv_report_studio.html">Create a report <span>→</span></a><div class="meta">CSV upload · Visual reports · PPTX export</div></article></section><section class="projects"><h2 class="projects-title">Dashboard Projects</h2><p class="projects-subtitle">Explore prepared dashboards and add more projects as your workspace grows.</p><div class="products"><article class="product"><div class="icon">☁</div><h2>Weather Dashboard</h2><p>Explore the prepared weather dataset through interactive charts, filters, and key indicators.</p><a class="action" href="weather_dashboard.html">Open weather dashboard <span>→</span></a><div class="meta">Interactive analytics · Weather trends</div></article></div></section></main>
-    <footer>InsightHub Analytics · Built for data-driven decisions · Developed by <a href="https://mrpatelrj.in" target="_blank" rel="noopener" style="color:#3563e9;text-decoration:none;font-weight:700">mrpatelrj.in</a></footer>
-    <script>
-      (()=>{
-        const escape=value=>String(value).replace(/[&<>'"]/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
-        let projects=[];try{projects=JSON.parse(localStorage.getItem('csv-dashboard-projects-v1')||'[]')}catch(error){}
-        const container=document.querySelector('.projects .products');
-        projects.forEach((project,index)=>{const card=document.createElement('article');card.className='product green';card.innerHTML=`<div class="icon">${index+1}</div><h2>${escape(project.name)}</h2><p>Saved CSV dashboard with ${Number(project.records||0).toLocaleString()} records. Open it in CSV Report Studio to explore the data.</p><a class="action" href="csv_report_studio.html">Open saved project <span>→</span></a><div class="meta">Saved dashboard project · #${index+1}</div>`;card.querySelector('a').addEventListener('click',()=>localStorage.setItem('csv-open-project-index',index));container.append(card)});
-      })();
-    </script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

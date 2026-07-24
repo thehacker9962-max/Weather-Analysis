@@ -1,7 +1,0 @@
-services:
-  - type: web
-    name: weather-dashboard
-    runtime: static
-    buildCommand: ""
-    staticPublishPath: .
-    pullRequestPreviewsEnabled: true

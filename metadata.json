@@ -1,0 +1,7 @@
+{
+  "name": "FinVision Analytics - Internship Project",
+  "description": "An internship project for enterprise financial analysis, ML forecasting, risk scoring, and interactive business dashboards.",
+  "author": "Dinesh Kumar",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["CSV_ANALYTICS", "ML_FORECASTING", "AI_ASSISTED_REPORTING"]
+}
