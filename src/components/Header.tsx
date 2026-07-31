@@ -6,6 +6,8 @@ import {
   Download,
   FileSpreadsheet,
   Activity,
+  ShieldAlert,
+  User,
 } from "lucide-react";
 import { ProcessedDataset } from "../types";
 
@@ -16,6 +18,7 @@ interface HeaderProps {
   setActiveTab: (tab: string) => void;
   onExportReport: () => void;
   onOpenChat: () => void;
+  onOpenActivities: () => void;
   hasAiReport: boolean;
 }
 
@@ -26,6 +29,7 @@ export const Header: React.FC<HeaderProps> = ({
   setActiveTab,
   onExportReport,
   onOpenChat,
+  onOpenActivities,
   hasAiReport,
 }) => {
   return (
@@ -92,6 +96,17 @@ export const Header: React.FC<HeaderProps> = ({
               <span>Export</span>
             </button>
           )}
+
+          {/* Activities Button */}
+          <button
+            onClick={onOpenActivities}
+            className="flex items-center space-x-1.5 px-3 py-1.5 bg-white hover:bg-slate-50 text-slate-700 rounded-md border border-slate-200 text-xs font-medium transition-colors cursor-pointer"
+            title="User Activities"
+            id="activities-btn"
+          >
+            <User className="h-3.5 w-3.5 text-slate-500" />
+            <span>Activities</span>
+          </button>
         </div>
       </div>
 
@@ -119,6 +134,20 @@ export const Header: React.FC<HeaderProps> = ({
             icon={<Activity className="h-3.5 w-3.5" />}
             label="ML Forecasts & Anomalies"
             badge={dataset?.anomalies?.length ? `${dataset.anomalies.length}` : undefined}
+          />
+          <TabButton
+            id="tab-risk-matrix"
+            active={activeTab === "risk"}
+            onClick={() => setActiveTab("risk")}
+            icon={<ShieldAlert className="h-3.5 w-3.5" />}
+            label="Risk Matrix"
+          />
+          <TabButton
+            id="tab-scenario-sim"
+            active={activeTab === "scenario"}
+            onClick={() => setActiveTab("scenario")}
+            icon={<TrendingUp className="h-3.5 w-3.5" />}
+            label="Scenario Simulator"
           />
           <TabButton
             id="tab-data-table"

@@ -10,9 +10,12 @@ import { ExecutiveReportView } from "./components/ExecutiveReportView";
 import { FinancialDashTab } from "./components/FinancialDashTab";
 import { MlAnalyticsTab } from "./components/MlAnalyticsTab";
 import { DataTableTab } from "./components/DataTableTab";
+import { RiskMatrixTab } from "./components/RiskMatrixTab";
+import { ScenarioSimulatorTab } from "./components/ScenarioSimulatorTab";
 import { FileUploadModal } from "./components/FileUploadModal";
 import { ExportReportModal } from "./components/ExportReportModal";
 import { AiAnalystChatDrawer } from "./components/AiAnalystChatDrawer";
+import { UserActivityModal, UserActivity } from "./components/UserActivityModal";
 import { SAMPLE_DATASETS } from "./data/sampleDatasets";
 import { processRawDataset, generateInstantAiReport } from "./utils/mlEngine";
 import { ProcessedDataset, AiExecutiveReport } from "./types";
@@ -25,6 +28,29 @@ export default function App() {
   const [isUploadOpen, setIsUploadOpen] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isExportOpen, setIsExportOpen] = useState(false);
+  const [isActivitiesOpen, setIsActivitiesOpen] = useState(false);
+  const [activities, setActivities] = useState<UserActivity[]>([
+    {
+      id: "act-1",
+      action: "System Init",
+      timestamp: new Date().toLocaleTimeString(),
+      details: "Loaded FinVision Analytics suite",
+      durationMs: 150,
+    }
+  ]);
+
+  const logActivity = (action: string, details: string, durationMs = 200) => {
+    setActivities((prev) => [
+      {
+        id: `act-${Date.now()}-${Math.random()}`,
+        action,
+        timestamp: new Date().toLocaleTimeString(),
+        details,
+        durationMs,
+      },
+      ...prev,
+    ]);
+  };
 
   // Initialize with default sample dataset & auto-generate instant AI report
   useEffect(() => {
@@ -45,6 +71,7 @@ export default function App() {
       const processed = processRawDataset(found.name, found.description, found.data);
       setCurrentDataset(processed);
       setReport(generateInstantAiReport(processed));
+      logActivity("Load Dataset", `Selected template dataset: ${found.name}`, 400);
     }
   };
 
@@ -54,6 +81,7 @@ export default function App() {
     setCurrentDataset(processed);
     setReport(generateInstantAiReport(processed));
     setActiveTab("report");
+    logActivity("Upload CSV", `Uploaded dataset: ${name} (${rawData.length} rows)`, 800);
   };
 
   // Run server-side AI analysis
@@ -108,11 +136,27 @@ export default function App() {
       {/* Navbar & Tab Controls */}
       <Header
         dataset={currentDataset}
-        onOpenUpload={() => setIsUploadOpen(true)}
-        onOpenChat={() => setIsChatOpen(true)}
+        onOpenUpload={() => {
+          setIsUploadOpen(true);
+          logActivity("Click UI", "Opened CSV Upload Modal", 150);
+        }}
+        onOpenChat={() => {
+          setIsChatOpen(true);
+          logActivity("Click UI", "Opened AI Analyst Drawer", 150);
+        }}
         activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        onExportReport={handleExportReport}
+        setActiveTab={(tab) => {
+          setActiveTab(tab);
+          logActivity("Switch Tab", `Navigated to ${tab} view`, 100);
+        }}
+        onExportReport={() => {
+          handleExportReport();
+          logActivity("Click UI", "Triggered Export Report Modal", 200);
+        }}
+        onOpenActivities={() => {
+          setIsActivitiesOpen(true);
+          logActivity("Click UI", "Opened User Activities Panel", 150);
+        }}
         hasAiReport={!!report}
       />
 
@@ -137,6 +181,10 @@ export default function App() {
             {activeTab === "dashboard" && <FinancialDashTab dataset={currentDataset} />}
 
             {activeTab === "ml" && <MlAnalyticsTab dataset={currentDataset} />}
+
+            {activeTab === "risk" && <RiskMatrixTab report={report} dataset={currentDataset} />}
+
+            {activeTab === "scenario" && <ScenarioSimulatorTab dataset={currentDataset} />}
 
             {activeTab === "data" && <DataTableTab dataset={currentDataset} />}
           </>
@@ -166,6 +214,13 @@ export default function App() {
           report={report}
         />
       )}
+
+      <UserActivityModal
+        isOpen={isActivitiesOpen}
+        onClose={() => setIsActivitiesOpen(false)}
+        activities={activities}
+        onAddActivity={(action, details) => logActivity(action, details, 300)}
+      />
     </div>
   );
 }
